@@ -1,20 +1,36 @@
+import java.util.Random;
 
 public class Deck {
-	private static final char[] suits = {'♠', '♥', '♦', '♣'};
-	private static final String[] faces = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
+	private static final int SUITS = 4;
+	private static final int FACES = 13;
+	private static final int CARDS_IN_DECK = 52;
+	private static final int TOTAL_CARDS = 312;
+	
 	private Card[] cards;
+	private Random random;
 	
 	public Deck() {
-		// Initialize array
-		cards = new Card[312];
+		// Initialize variables
+		cards = new Card[TOTAL_CARDS];
+		random = new Random();
 		
 		// Fill array with cards
-		for (int k = 0; k < 6; k++) {
-			for (int i = 0; i < suits.length; i++) {
-				for (int j = 0; j < faces.length; j++) {
-					cards[k * 52 +  i * 13 + j] = new Card(suits[i], faces[j]);
+		for (int deck = 0; deck < 6; deck++) {
+			for (int suit = 0; suit < SUITS; suit++) {
+				for (int face = 0; face < FACES; face++) {
+					cards[deck * CARDS_IN_DECK +  suit * FACES + face] = new Card(suit, face);
 				}
 			}	
 		}
   	}
+	
+	public Card drawCard() {
+		Card retCard;
+		do {
+			int index = random.nextInt(TOTAL_CARDS);
+			retCard = cards[index];
+			cards[index] = null;
+		} while (retCard == null);
+		return retCard;
+	}
 }

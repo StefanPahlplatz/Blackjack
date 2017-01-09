@@ -33,11 +33,12 @@ public class Input {
 	 * @param max value to be accepted
 	 * @return user input
 	 */
-	public static int getInt(Scanner sc, int min, int max) {
+	public static int getInt(Scanner sc, int min, int max, String question) {
 		int value;
 		do {
-			value = getInt(sc);
-		} while (value < min && value > max);
+			System.out.print(question);
+			value = getInt(sc, question);
+		} while (value < min || value > max);
 		return value;
 	}
 	
@@ -46,9 +47,9 @@ public class Input {
 	 * @param sc Scanner
 	 * @return user input
 	 */
-	public static int getInt(Scanner sc) {
+	public static int getInt(Scanner sc, String question) {
 	    while (!sc.hasNextInt()) {
-	        System.out.print("*** That's not a number! ***\nEnter your number again: ");
+	        System.out.print("*** That's not a number! ***\n" + question);
 	        sc.next();
 	    }
 		return sc.nextInt();
