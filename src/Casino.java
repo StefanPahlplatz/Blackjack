@@ -11,6 +11,11 @@ public class Casino {
 		Player player = initializeUser();
 		
 		Blackjack blackjack = new Blackjack(player);
+		
+		do {
+			blackjack.play();
+		} while (Input.getYesNo(new Scanner(System.in), "Do you want to play again? (yes/no): "));
+		System.out.println("\n\nThank you for playing");	
 	}
 	
 	private Player initializeUser() {

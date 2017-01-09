@@ -26,13 +26,10 @@ public class Blackjack {
 					players[i].getHands()[j].dealCard(deck.drawCard());
 			}
 		}
-		
-		printSituation();
-		play();
-		
 	}
 	
-	private void play() {
+	public void play() {
+		printSituation();
 		int handsPassed = 0;
 		
 		// While not all hands are passed
@@ -86,10 +83,33 @@ public class Blackjack {
 			System.out.println("Dealer: " + players[DEALER].printCardsInHand(0));
 		}
 
-		if (players[DEALER].getHands()[0].getTotal() > 21)
+		if (players[DEALER].getHands()[0].getTotal() > 21) {
 			System.out.println("The dealer lost!");
-		else
-			System.out.println("The dealer passed and ended with " + players[DEALER].getHands()[0].getTotal() + " points.");
+		} else {
+			int dealerPoints = players[DEALER].getHands()[0].getTotal();
+				
+			System.out.println("The dealer passed and ended with " + dealerPoints + " points.");
+			
+			for (int i = 0; i < players[PLAYER].getHands().length; i++) {
+				int myPoints = players[PLAYER].getHands()[i].getTotal();
+				
+				// Verlies, inzet kwijt
+				if (myPoints < dealerPoints || players[PLAYER].getHands()[i].isDead()) {
+					System.out.println(players[PLAYER].getName() + ", you lost hand " + (i + 1) + " with a bet of " + players[PLAYER].getHands()[i].betAmount());
+				} else if (myPoints == 21) {
+					System.out.println(players[PLAYER].getName() + ", you win hand " + (i + 1) + " with a bet of " + players[PLAYER].getHands()[i].betAmount());
+					players[PLAYER].addMoney(players[PLAYER].getHands()[i].betAmount() * 2.5);
+				} else if (myPoints == dealerPoints) {
+					System.out.println(players[PLAYER].getName() + ", hand " + (i + 1) + " is a draw, you get " + players[PLAYER].getHands()[i].betAmount());
+					players[PLAYER].addMoney(players[PLAYER].getHands()[i].betAmount());
+				} else if (myPoints > dealerPoints) {
+					System.out.println(players[PLAYER].getName() + ", you win hand " + (i + 1) + " with a bet of " + players[PLAYER].getHands()[i].betAmount());
+					players[PLAYER].addMoney(players[PLAYER].getHands()[i].betAmount() * 2);
+				}
+			}
+			
+			System.out.println("Your total budget is now " + players[PLAYER].getMoney());
+		}
 	}
 	
 	private String getAction(int hand) {

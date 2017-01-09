@@ -36,9 +36,10 @@ public class Input {
 	 * @param sc Scanner
 	 * @return yes if the user entered yes, false if the user entered no
 	 */
-	public static boolean getYesNo(Scanner sc) {
+	public static boolean getYesNo(Scanner sc, String question) {
 		String value;
 		do {
+			System.out.print(question);
 			value = Input.getString(sc);
 		} while (!value.equals("yes") && !value.equals("no"));
 		return value.equals("yes");

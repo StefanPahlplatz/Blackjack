@@ -53,6 +53,10 @@ public class Hand {
 		return passed;
 	}
 	
+	public boolean isDead() {
+		return dead;
+	}
+	
 	public void pass() {
 		passed = true;
 	}

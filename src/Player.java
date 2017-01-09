@@ -1,7 +1,7 @@
 
 public class Player {
 	private final String name;
-	private int money;
+	private double money;
 	private Hand[] hands;
 	
 	public Player(String name, int amountOfGames, int betPerGame) {		
@@ -14,8 +14,16 @@ public class Player {
 			hands[i] = new Hand(betPerGame);
 	}
 	
-	public int getMoney() {
+	public double getMoney() {
 		return money;
+	}
+	
+	public void setMoney(double amount) {
+		money = amount;
+	}
+	
+	public void addMoney(double amount) {
+		money += amount;
 	}
 	
 	public String getName() {
