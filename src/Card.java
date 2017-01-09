@@ -13,9 +13,9 @@ public class Card {
 	public int getValue() {
 		if (face <= 8)
 			return face + 2;
-		else if (face < 13)
+		else if (face < 12)
 			return 10;
-		else if (face == 13)
+		else if (face == 12)
 			return 1;
 		return -1;
 	}

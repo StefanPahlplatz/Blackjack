@@ -27,16 +27,16 @@ public class Blackjack {
 			}
 		}
 		
+		printSituation();
 		play();
+		
 	}
 	
 	private void play() {
 		int handsPassed = 0;
 		
 		// While not all hands are passed
-		do {
-			printSituation();
-			
+		do {			
 			// Loop through all hands
 			for (int hand = 0; hand < players[PLAYER].amountOfHands(); hand++) {
 				// If the hand is not passed
@@ -69,14 +69,27 @@ public class Blackjack {
 					handsPassed++;
 				}
 			}
+			printSituation();
 		} while (handsPassed < players[PLAYER].getHands().length);
 		
-		printSituation();
-		
-		System.out.println(players[DEALER].toString());
+		System.out.println("Dealer: " + players[DEALER].printCardsInHand(0));
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		System.out.print("Press enter to make the dealer play...");
-		try { System.in.read(); } catch (Exception ex) {};
-		System.out.println("ts");
+		
+		while (players[DEALER].getHands()[0].getTotal() <= 17) {
+			try { System.in.read(); } catch (Exception ex) {};
+				players[DEALER].getHands()[0].dealCard(deck.drawCard());
+			System.out.println("Dealer: " + players[DEALER].printCardsInHand(0));
+		}
+
+		if (players[DEALER].getHands()[0].getTotal() > 21)
+			System.out.println("The dealer lost!");
+		else
+			System.out.println("The dealer passed and ended with " + players[DEALER].getHands()[0].getTotal() + " points.");
 	}
 	
 	private String getAction(int hand) {

@@ -26,20 +26,20 @@ public class Hand {
 	 * @return the current hand of the player
 	 */
 	public int getTotal() {
-		int total = 0;
+		int total = -1;
 		int amountOfAces = 0;
 		
 		// Get the values for all cards, store the aces seperatly
 		for (int i = 0; i < cards.size(); i++) {
 			int cardValue = cards.get(i).getValue();
-			if (cardValue == -1)
+			if (cardValue == 1)
 				amountOfAces++;
 			else
 				total += cardValue;
 		}
 		
 		// Add the aces
-		while (amountOfAces != 0) {
+		for (int i = amountOfAces; i >= 0; i--) {
 			if (amountOfAces == 1 && total + 11 <= 21)
 				total += 11;
 			else
