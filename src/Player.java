@@ -22,6 +22,10 @@ public class Player {
 		return name;
 	}
 	
+	public String printCardsInHand(int i) {
+		return hands[i].printCards();
+	}
+	
 	public String printHand(int i) {
 		return hands[i].toString();
 	}

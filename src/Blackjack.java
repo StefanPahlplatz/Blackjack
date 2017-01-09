@@ -13,7 +13,7 @@ public class Blackjack {
 	public Blackjack(Player player) {
 		// Initialize variables
 		players = new Player[2];
-		players[DEALER] = new Player("Dealer", 2, 0);
+		players[DEALER] = new Player("Dealer", 1, 0);
 		players[PLAYER] = player;
 		this.deck = new Deck();
 		
@@ -27,8 +27,6 @@ public class Blackjack {
 			}
 		}
 		
-		printSituation();
-		
 		play();
 	}
 	
@@ -36,7 +34,9 @@ public class Blackjack {
 		int handsPassed = 0;
 		
 		// While not all hands are passed
-		while (handsPassed < players[PLAYER].getHands().length) {
+		do {
+			printSituation();
+			
 			// Loop through all hands
 			for (int hand = 0; hand < players[PLAYER].amountOfHands(); hand++) {
 				// If the hand is not passed
@@ -52,7 +52,6 @@ public class Blackjack {
 					// Deal
 					case "d":
 						players[PLAYER].getHands()[hand].dealCard(deck.drawCard());
-						players[PLAYER].printHand(hand);
 						break;
 
 					// Double bet + deal
@@ -60,6 +59,8 @@ public class Blackjack {
 						if (players[PLAYER].getHands()[hand].betAmount() * 2 < players[PLAYER].getMoney())
 							players[PLAYER].getHands()[hand].doubleBet();
 						players[PLAYER].getHands()[hand].dealCard(deck.drawCard());
+						System.out.print("New situation: ");
+						System.out.println(players[PLAYER].printHand(hand));
 						break;
 					default:
 						throw new IllegalArgumentException();
@@ -68,11 +69,14 @@ public class Blackjack {
 					handsPassed++;
 				}
 			}
-			
-			System.out.println();
-			printSituation();
-			System.out.println();
-		}
+		} while (handsPassed < players[PLAYER].getHands().length);
+		
+		printSituation();
+		
+		System.out.println(players[DEALER].toString());
+		System.out.print("Press enter to make the dealer play...");
+		try { System.in.read(); } catch (Exception ex) {};
+		System.out.println("ts");
 	}
 	
 	private String getAction(int hand) {
@@ -82,10 +86,10 @@ public class Blackjack {
 	}
 	
 	private void printSituation() {
-		System.out.println("***************************************************************");
-		System.out.println("Dealer: " + players[DEALER].printHand(0));
+		System.out.println("\n***************************************************************");
+		System.out.println("Dealer: " + players[DEALER].printCardsInHand(0));
 		System.out.println("---------------------------------------------------------------");
 		System.out.println(players[PLAYER].toString());
-		System.out.println("***************************************************************");
+		System.out.println("***************************************************************\n");
 	}
 }

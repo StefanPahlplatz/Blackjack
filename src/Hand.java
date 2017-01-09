@@ -17,6 +17,8 @@ public class Hand {
 		
 		if (getTotal() > 21)
 			dead = passed = true;
+		if (getTotal() == 21)
+			passed = true;
 	}
 	
 	/**
@@ -63,8 +65,7 @@ public class Hand {
 		bet *= 2;
 	}
 	
-	@Override
-	public String toString() {
+	public String printCards() {
 		StringBuilder retString = new StringBuilder();
 		
 		// Add cards
@@ -72,13 +73,30 @@ public class Hand {
 			if (cards.get(i) != null)
 				retString.append(cards.get(i).toString() + " ");
 		}
+		
+		return retString.toString();
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder retString = new StringBuilder();
+		
+		// Add cards
+		String cardsString = "";
+		for (int i = 0; i < cards.size(); i++) {
+			if (cards.get(i) != null)
+				cardsString += (cards.get(i).toString() + " ");
+		}
+		retString.append(Input.padRight(cardsString, 15));
 			
 		
 		// Add the bet amount
 		retString.append("\t\tBet = " + bet);
 		
 		// Add whether the hand is doubled or passed
-		if (dead)
+		if (getTotal() == 21)
+			retString.append(" BLACKJACK!");
+		else if (dead)
 			retString.append(" Dead");
 		else if (passed)
 			retString.append(" Passed");
