@@ -1,18 +1,13 @@
 import java.util.Scanner;
 
-/*
- * Casino. Hierin wordt de speler gevraagd met hoeveel handen en met welke inzet hij wil spelen. Verder is
- * er een loop waarin een spelletje Blackjack aan de hand van de invoer van de gebruiker wordt gecreëerd
- * en gestart, net zolang tot de gebruiker er genoeg van heeft (of te weinig kapitaal heeft).
- */
 public class Casino {
 	
 	public void run() {
 		Player player = initializeUser();
-		
-		Blackjack blackjack = new Blackjack(player);
+		Blackjack blackjack;
 		
 		do {
+			blackjack = new Blackjack(player);
 			blackjack.play();
 		} while (Input.getYesNo(new Scanner(System.in), "Do you want to play again? (yes/no): "));
 		System.out.println("\n\nThank you for playing");	

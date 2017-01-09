@@ -40,7 +40,7 @@ public class Hand {
 		
 		// Add the aces
 		for (int i = amountOfAces; i >= 0; i--) {
-			if (amountOfAces == 1 && total + 11 <= 21)
+			if (i == 0 && total + 11 <= 21)
 				total += 11;
 			else
 				total += 1;

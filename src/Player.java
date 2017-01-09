@@ -18,10 +18,6 @@ public class Player {
 		return money;
 	}
 	
-	public void setMoney(double amount) {
-		money = amount;
-	}
-	
 	public void addMoney(double amount) {
 		money += amount;
 	}
