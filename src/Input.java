@@ -13,6 +13,24 @@ public class Input {
 		return value;
 	}
 	
+	public static String getString(Scanner sc, String question, String[] allowed) {
+		if (allowed.length == 0)
+			throw new IllegalArgumentException("Argument array contains no data!");
+		
+		String value = "";
+		while(true) {
+			System.out.print(question);
+			if(sc.hasNext()) {
+				value = sc.next();
+				
+				for (int i = 0; i < allowed.length; i++) {
+					if (allowed[i].equals(value))
+							return value;
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Gets a string from the user which is either yes or no
 	 * @param sc Scanner

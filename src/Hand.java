@@ -5,6 +5,7 @@ public class Hand {
 	private int bet;
 	private boolean doubleBet;
 	private boolean passed;
+	private boolean dead;
 	
 	public Hand(int bet) {
 		this.bet = bet;
@@ -13,6 +14,9 @@ public class Hand {
 	
 	public void dealCard(Card card) {
 		cards.add(card);
+		
+		if (getTotal() > 21)
+			dead = passed = true;
 	}
 	
 	/**
@@ -43,6 +47,22 @@ public class Hand {
 		return total;
 	}
 	
+	public boolean isPassed() {
+		return passed;
+	}
+	
+	public void pass() {
+		passed = true;
+	}
+	
+	public int betAmount() {
+		return bet;
+	}
+	
+	public void doubleBet() {
+		bet *= 2;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder retString = new StringBuilder();
@@ -58,7 +78,9 @@ public class Hand {
 		retString.append("\t\tBet = " + bet);
 		
 		// Add whether the hand is doubled or passed
-		if (passed)
+		if (dead)
+			retString.append(" Dead");
+		else if (passed)
 			retString.append(" Passed");
 		else if (doubleBet)
 			retString.append(" Double");

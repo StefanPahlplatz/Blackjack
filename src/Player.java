@@ -6,7 +6,7 @@ public class Player {
 	
 	public Player(String name, int amountOfGames, int betPerGame) {		
 		this.name = name;
-		this.money = 1000;
+		this.money = 1000 - (betPerGame * amountOfGames);
 		
 		// Initialize the hands
 		hands = new Hand[amountOfGames];
@@ -28,6 +28,10 @@ public class Player {
 	
 	public Hand[] getHands() {
 		return hands;
+	}
+	
+	public int amountOfHands() {
+		return hands.length;
 	}
 	
 	@Override
