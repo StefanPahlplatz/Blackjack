@@ -2,17 +2,31 @@ import java.util.Scanner;
 
 public class Casino {
 	
+	/**
+	 * Start the casino
+	 */
 	public void run() {
+		// Create the player
 		Player player = initializeUser();
+		
+		// Create the game
 		Blackjack blackjack;
 		
+		// Keep playing games while the user doesn't exit
 		do {
 			blackjack = new Blackjack(player);
 			blackjack.play();
+			blackjack.reset();
 		} while (Input.getYesNo(new Scanner(System.in), "Do you want to play again? (yes/no): "));
-		System.out.println("\n\nThank you for playing");	
+		
+		// Thank the user for playing
+		System.out.println("\nThank you for playing");	
 	}
 	
+	/**
+	 * Create a player by asking the user the questions needed.
+	 * @return a fully initialized player.
+	 */
 	private Player initializeUser() {
 		Scanner sc = new Scanner(System.in);
 		

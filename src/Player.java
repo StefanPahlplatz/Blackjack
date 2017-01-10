@@ -2,16 +2,17 @@
 public class Player {
 	private final String name;
 	private double money;
+	private int betPerGame;
 	private Hand[] hands;
 	
 	public Player(String name, int amountOfGames, int betPerGame) {		
 		this.name = name;
 		this.money = 1000 - (betPerGame * amountOfGames);
+		this.betPerGame = betPerGame;
 		
 		// Initialize the hands
 		hands = new Hand[amountOfGames];
-		for (int i = 0; i < hands.length; i++)
-			hands[i] = new Hand(betPerGame);
+		this.reset();
 	}
 	
 	public double getMoney() {
@@ -40,6 +41,12 @@ public class Player {
 	
 	public int amountOfHands() {
 		return hands.length;
+	}
+	
+	public void reset() {
+		// Clear the hands
+		for (int i = 0; i < hands.length; i++)
+			hands[i] = new Hand(betPerGame);
 	}
 	
 	@Override

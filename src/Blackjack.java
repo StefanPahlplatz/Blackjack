@@ -43,37 +43,49 @@ public class Blackjack {
 	}
 	
 	private void calculateResult() {
-		// If the dealer lost
-		if (players[DEALER].getHands()[0].getTotal() > 21) {
+		boolean dealerLost = players[DEALER].getHands()[0].isDead();
+		int dealerPoints = players[DEALER].getHands()[0].getTotal();
+		String message = "null";
+		String name = players[PLAYER].getName();
+		
+		// Show the dealer's status
+		if (dealerLost)
 			System.out.println("The dealer lost!");
-			
-			// TODO: USER WINS ALL BETS THAT ARE NOT DEAD
-			
-		} else {
-			int dealerPoints = players[DEALER].getHands()[0].getTotal();
-			
-			// Show the dealer's points
+		else
 			System.out.println("The dealer passed and ended with " + dealerPoints + " points.");
 			
-			for (int i = 0; i < players[PLAYER].getHands().length; i++) {
-				int myPoints = players[PLAYER].getHands()[i].getTotal();
-				
-				if (myPoints < dealerPoints || players[PLAYER].getHands()[i].isDead()) {
-					System.out.println(players[PLAYER].getName() + ", you lost hand " + (i + 1) + " with a bet of " + players[PLAYER].getHands()[i].betAmount());
-				} else if (myPoints == 21) {
-					System.out.println(players[PLAYER].getName() + ", you win hand " + (i + 1) + " with a bet of " + players[PLAYER].getHands()[i].betAmount());
-					players[PLAYER].addMoney(players[PLAYER].getHands()[i].betAmount() * 2.5);
-				} else if (myPoints == dealerPoints) {
-					System.out.println(players[PLAYER].getName() + ", hand " + (i + 1) + " is a draw, you get " + players[PLAYER].getHands()[i].betAmount());
-					players[PLAYER].addMoney(players[PLAYER].getHands()[i].betAmount());
-				} else if (myPoints > dealerPoints) {
-					System.out.println(players[PLAYER].getName() + ", you win hand " + (i + 1) + " with a bet of " + players[PLAYER].getHands()[i].betAmount());
-					players[PLAYER].addMoney(players[PLAYER].getHands()[i].betAmount() * 2);
-				}
+		
+		// Calculate result for each hand
+		for (int i = 0; i < players[PLAYER].getHands().length; i++) {
+			int myPoints = players[PLAYER].getHands()[i].getTotal();
+			int betAmount = players[PLAYER].getHands()[i].betAmount();
+			
+			// Lost
+			if ((myPoints < dealerPoints && !dealerLost) || players[PLAYER].getHands()[i].isDead()) {
+				message = String.format("%1$s, you lost hand %2$d with a bet of %3$d", name, i + 1, betAmount);
+			// Blackjack
+			} else if (myPoints == 21) {
+				message = String.format("%1$s, you win hand %2$d with a bet of %3$d", name, i + 1, betAmount);
+				players[PLAYER].addMoney(betAmount * 2.5);
+			// Draw
+			} else if (myPoints == dealerPoints && myPoints <= 21) {
+				message = String.format("%1$s, hand %2$d is a draw, you get %3$s back", name, i + 1, betAmount);
+				players[PLAYER].addMoney(betAmount);
+			// Won
+			} else if (myPoints > dealerPoints && myPoints <= 21) {
+				message = String.format("%1$s, you win hand %2$d with a bet of %3$d", name, i + 1, betAmount);
+				players[PLAYER].addMoney(betAmount * 2);
+			} else if (myPoints <= 21 && dealerLost) {
+				message = String.format("%1$s, you win hand %2$d with a bet of %3$d", name, i + 1, betAmount);
+				players[PLAYER].addMoney(betAmount * 2);
 			}
 			
-			System.out.println("Your total budget is now " + players[PLAYER].getMoney());
+			// Print the status
+			System.out.println(message);
 		}
+		
+		// Show the players budget
+		System.out.println("Your total budget is now " + players[PLAYER].getMoney());
 	}
 	
 	/**
@@ -119,7 +131,7 @@ public class Blackjack {
 		int handsPassed = 0;
 		
 		// While not all hands are passed
-		do {			
+		while (handsPassed < players[PLAYER].getHands().length) {			
 			// Loop through all hands
 			for (int handIndex = 0; handIndex < players[PLAYER].amountOfHands(); handIndex++) {
 				Hand currentHand = players[PLAYER].getHands()[handIndex];
@@ -137,15 +149,17 @@ public class Blackjack {
 					} else if (action.equals("2")) {
 						doubleHand(handIndex);
 					}
+					
 				} else {
 					// If the hand is passed increment handsPassed
 					handsPassed++;
 				}
 			}
 			
-			// Print the current cards
-			printSituation();
-		} while (handsPassed < players[PLAYER].getHands().length);
+			if (handsPassed < players[PLAYER].getHands().length) {
+				printSituation();
+			}
+		}
 	}
 		
 	/**
@@ -197,5 +211,11 @@ public class Blackjack {
 		System.out.println("---------------------------------------------------------------");
 		System.out.println(players[PLAYER].toString());
 		System.out.println("***************************************************************\n");
+	}
+	
+	public void reset() {
+		for (Player player : players) {
+			player.reset();
+		}
 	}
 }
