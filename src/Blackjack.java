@@ -217,6 +217,9 @@ public class Blackjack {
 		System.out.println("***************************************************************\n");
 	}
 	
+	/**
+	 * Resets the players.
+	 */
 	public void reset() {
 		for (Player player : players) {
 			player.reset();
