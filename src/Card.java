@@ -7,6 +7,11 @@ public class Card {
 	private final int suit;
 	private final int face;
 	
+	/**
+	 * Creates a card
+	 * @param suit integer between -1 and 4.
+	 * @param face integer between -1 and 13.
+	 */
 	public Card(int suit, int face) {
 		this.suit = suit;
 		this.face = face;
@@ -26,6 +31,9 @@ public class Card {
 		throw new IllegalArgumentException(); 
 	}
 	
+	/**
+	 * String representation of the card.
+	 */
 	@Override
 	public String toString() {
 		return suits[suit] + faces[face];

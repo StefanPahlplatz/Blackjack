@@ -7,11 +7,19 @@ public class Hand {
 	private boolean passed;
 	private boolean dead;
 	
+	/**
+	 * Creates a hand.
+	 * @param bet amount.
+	 */
 	public Hand(int bet) {
 		this.bet = bet;
 		cards = new ArrayList<>();
 	}
 	
+	/**
+	 * Adds a card to the hand.
+	 * @param card to add.
+	 */
 	public void dealCard(Card card) {
 		cards.add(card);
 		
@@ -26,12 +34,14 @@ public class Hand {
 	 * @return the current hand of the player
 	 */
 	public int getTotal() {
-		int total = -1;
+		int total = 0;
 		int amountOfAces = 0;
 		
 		// Get the values for all cards, store the aces seperatly
 		for (int i = 0; i < cards.size(); i++) {
 			int cardValue = cards.get(i).getValue();
+			
+			// If the card is an ace
 			if (cardValue == 1)
 				amountOfAces++;
 			else
@@ -39,36 +49,60 @@ public class Hand {
 		}
 		
 		// Add the aces
-		for (int i = amountOfAces; i >= 0; i--) {
-			if (i == 0 && total + 11 <= 21)
-				total += 11;
-			else
-				total += 1;
+		if (amountOfAces > 0) {
+			for (int i = amountOfAces; i > 0; i--) {
+				if (i == 1 && total + 11 <= 21)
+					total += 11;
+				else
+					total += 1;
+			}
 		}
 		
 		return total;
 	}
 	
+	/**
+	 * Returns whether the hand is passed or not.
+	 * @return passed.
+	 */
 	public boolean isPassed() {
 		return passed;
 	}
 	
+	/**
+	 * Returns whether the hand is dead or not.
+	 * @return dead.
+	 */
 	public boolean isDead() {
 		return dead;
 	}
 	
+	/**
+	 * Pass the hand.
+	 */
 	public void pass() {
 		passed = true;
 	}
 	
+	/**
+	 * Returns the bet amount.
+	 * @return bet.
+	 */
 	public int betAmount() {
 		return bet;
 	}
 	
+	/**
+	 * Doubles the bet of the hand.
+	 */
 	public void doubleBet() {
 		bet *= 2;
 	}
 	
+	/**
+	 * Returns all the cards in the hand.
+	 * @return string of cards.
+	 */
 	public String printCards() {
 		StringBuilder retString = new StringBuilder();
 		
@@ -81,6 +115,9 @@ public class Hand {
 		return retString.toString();
 	}
 	
+	/**
+	 * String representation of the hand.
+	 */
 	@Override
 	public String toString() {
 		StringBuilder retString = new StringBuilder();
@@ -106,6 +143,8 @@ public class Hand {
 			retString.append(" Passed");
 		else if (doubleBet)
 			retString.append(" Double");
+		
+		retString.append(" - " + getTotal());
 		
 		return retString.toString();
 	}

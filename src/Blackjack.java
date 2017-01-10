@@ -42,6 +42,9 @@ public class Blackjack {
 		calculateResult();
 	}
 	
+	/**
+	 * Calculates the results after the player and the dealer played.
+	 */
 	private void calculateResult() {
 		boolean dealerLost = players[DEALER].getHands()[0].isDead();
 		int dealerPoints = players[DEALER].getHands()[0].getTotal();
@@ -75,6 +78,7 @@ public class Blackjack {
 			} else if (myPoints > dealerPoints && myPoints <= 21) {
 				message = String.format("%1$s, you win hand %2$d with a bet of %3$d", name, i + 1, betAmount);
 				players[PLAYER].addMoney(betAmount * 2);
+			// Dealer lost
 			} else if (myPoints <= 21 && dealerLost) {
 				message = String.format("%1$s, you win hand %2$d with a bet of %3$d", name, i + 1, betAmount);
 				players[PLAYER].addMoney(betAmount * 2);
