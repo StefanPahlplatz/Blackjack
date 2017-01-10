@@ -9,6 +9,9 @@ public class Deck {
 	private Card[] cards;
 	private Random random;
 	
+	/**
+	 * Default constructor.
+	 */
 	public Deck() {
 		// Initialize variables
 		cards = new Card[TOTAL_CARDS];
@@ -24,6 +27,10 @@ public class Deck {
 		}
   	}
 	
+	/**
+	 * Draws one card from the deck and sets this card to null after returning it.
+	 * @return a card from the deck.
+	 */
 	public Card drawCard() {
 		Card retCard;
 		do {

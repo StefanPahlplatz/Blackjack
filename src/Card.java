@@ -1,3 +1,5 @@
+
+
 public class Card {
 	private static final char[] suits = {'♠', '♥', '♦', '♣'};
 	private static final String[] faces = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
@@ -10,6 +12,10 @@ public class Card {
 		this.face = face;
 	}
 	
+	/**
+	 * Gets the value of the card.
+	 * @return the amount of points for the card.
+	 */
 	public int getValue() {
 		if (face <= 8)
 			return face + 2;
@@ -17,7 +23,7 @@ public class Card {
 			return 10;
 		else if (face == 12)
 			return 1;
-		return -1;
+		throw new IllegalArgumentException(); 
 	}
 	
 	@Override
